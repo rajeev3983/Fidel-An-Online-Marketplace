@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/static/fidel_app/bootstrap/css/bootstrap.min.css">
+  <script src="/static/fidel_app/jquery-1.11.2.min.js"></script>
+  <script src="/static/fidel_app/bootstrap/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="/static/fidel_app/notifIt.js"></script>
+  <link rel="stylesheet" type="text/css" href="/static/fidel_app/notifIt.css">
+  <script>
+	$(document).ready(function(){
+		$(".user-list a").click(function(){
+			var user = $(this).data('user');
+			$("a[data-user]").removeClass('active');
+			$(".msg-body").load("/show_message/",{other_user: user});
+			$("a[data-user="+user+"]").addClass('active');
+		});
+		var initial = {{res}};
+		if(initial) {
+			$(".msg-body").load("/show_message/",{other_user: initial});
+			$("a[data-user="+initial+"]").addClass('active');
+		}
+	});
+  </script>
+</head>
+<body>
+<nav class="navbar navbar-default">
+<div class="container">
+<div class="row">
+<div class="col-sm-1">
+<a class="navbar-brand" href="/">Fidel</a>
+</div>
+<div class="col-sm-5">
+            <form action="/search/" class="navbar-form">
+	      <div class="form-group" style="width:100%;">
+		<div class="input-group" style="width:100%;">
+        	    <input type="text" class="form-control" placeholder="Search" name="q">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                    </span>
+		 </div>
+		</div>
+            </form>
+</div>
+<div class="col-sm-6">
+      <ul class="nav navbar-nav navbar-right">
+        <li class="active"><a href="/">Home</a></li>
+        <li><a href="/requests/">Requests</a></li>
+        <li><a href="/messages/">Messages</a></li> 
+        <li><a href="/notifications/">Notifications</a></li>
+	<li class="dropdown">
+	<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+               My Account
+               <b class="caret"></b>
+        </a>
+	<ul class="dropdown-menu">
+               <li><a href="/myprofile/">Profile</a></li>
+               <li><a href="/advertisements/">Advertisements</a></li>
+               <li><a href="/requirements/">Requirements</a></li>
+	       <li><a href="/logout/">Sign Out</a></li>
+         </ul>
+	</li>
+      </ul>
+</div>
+</div>
+</div>
+</nav>
+
+<div class="container">
+	<div class="row">
+		<div class="col-sm-3">
+			<div class="list-group user-list" style="height:534px;overflow-y:scroll;">
+			    {% for conn in conns1 %}
+			       <a href="#" class="list-group-item" data-user='{{conn.user_id}}'>{{ conn.first_name }} {{ conn.last_name }}</a>
+			    {% endfor %}
+    			{% for conn in conns2 %}
+					<a href="#" class="list-group-item" data-user='{{conn.user_id}}'>{{ conn.first_name }} {{ conn.last_name }}</a>
+    			{% endfor %}
+			</div>
+		</div>
+		<div class="col-sm-9 msg-body" style="border:1px solid #ccc;margin-left:-15px;height:534px;">
+			<div class="page-header">
+			  <h3><span class='label label-primary'>Select friend to read messages...</span></h3>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>

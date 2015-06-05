@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/static/fidel_app/bootstrap/css/bootstrap.min.css">
+  <script src="/static/fidel_app/jquery-1.11.2.min.js"></script>
+   <script src="/static/fidel_app/bootstrap/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="/static/fidel_app/notifIt.js"></script>
+  <link rel="stylesheet" type="text/css" href="/static/fidel_app/notifIt.css">
+  
+  </head>
+<body>
+
+<nav class="navbar navbar-default">
+<div class="container">
+<div class="row">
+<div class="col-sm-1">
+<a class="navbar-brand" href="/">Fidel</a>
+</div>
+<div class="col-sm-5">
+            <form action="/search/" class="navbar-form">
+	      <div class="form-group" style="width:100%;">
+		<div class="input-group" style="width:100%;">
+        	    <input type="text" class="form-control" placeholder="Search" name="q">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                    </span>
+		 </div>
+		</div>
+            </form>
+</div>
+<div class="col-sm-6">
+      <ul class="nav navbar-nav navbar-right">
+        <li class="active"><a href="/">Home</a></li>
+        <li><a href="/requests/">Requests</a></li>
+        <li><a href="/messages/">Messages</a></li>
+        <li><a href="/notifications/">Notifications</a></li>
+	<li class="dropdown">
+	<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+               My Account
+               <b class="caret"></b>
+        </a>
+	<ul class="dropdown-menu">
+               <li><a href="/myprofile/">Profile</a></li>
+               <li><a href="/advertisements/">Advertisements</a></li>
+               <li><a href="/requirements/">Requirements</a></li>
+	       <li><a href="/logout/">Sign Out</a></li>
+         </ul>
+	</li>
+      </ul>
+</div>
+</div>
+</div>
+</nav>
+
+ <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+$(document).ready(function() {
+  
+   var remove = function(event) {
+	   event.preventDefault();
+	   var idx = $(".remove_phone").index($(this));
+	   $(".phone_num:eq("+idx+")").remove();
+   }
+   $('.add_phone').click(function(event) {
+	   event.preventDefault();
+      $('#phone_num').append($(".phone_num:eq(0)").clone());
+	  $(".remove_phone").off('click');
+	  $('.remove_phone').on('click',remove);
+   });
+   $('.remove_phone').on('click',remove);
+   
+});
+</script>
+<div class='container'>
+<ul class='list-group'>
+<form action="/edit_my_profile_next/" class='form-horizontal' method="POST" enctype="multipart/form-data">
+	
+  <li class='list-group-item'><div class='form-group'><label class='control-label col-sm-4'>Profile Picture:</label><div class='col-sm-8'> <input class='form-control' type="file" name="profile_picture" value="{{ user1.profile_picture }}"></div></div></li>
+  <li class='list-group-item'><div class='form-group'><label class='control-label col-sm-4'>First Name:</label> <div class='col-sm-8'> <input class='form-control' type="text" name="first_name" value="{{ user1.first_name }}"></div></div></li>
+  <li class='list-group-item'><div class='form-group'><label class='control-label col-sm-4'>Last Name:</label> <div class='col-sm-8'> <input class='form-control' type="text" name="last_name" value="{{ user1.last_name }}"></div></div></li>
+  <li class='list-group-item'><div class='form-group'><label class='control-label col-sm-4'>E-mail id:</label> <div class='col-sm-8'> <input class='form-control' type="email" name="email_id" value="{{ user1.email_id }}"></div></div></li>
+  <li class='list-group-item'><div class='form-group'><label class='control-label col-sm-4'>Password:</label> <div class='col-sm-8'> <input class='form-control' type="password" name="password" value="{{ user1.password }}"></div></div></li>
+  <li class='list-group-item'><div class='form-group'><label class='control-label col-sm-4'>Street name:</label><div class='col-sm-8'>  <input class='form-control' type="text" name="street_name" value="{{ user1.street_name }}"></div></div></li>
+  <li class='list-group-item'><div class='form-group'><label class='control-label col-sm-4'>House No:</label> <div class='col-sm-8'> <input class='form-control' type="integer" name="house_number" value="{{ user1.house_number }}"></div></div></li>
+  <li class='list-group-item'><div class='form-group'><label class='control-label col-sm-4'>City:</label> <div class='col-sm-8'> <input class='form-control' type="text" name="city" value="{{ user1.city }}"></div></div></li>
+  <li class='list-group-item'><div class='form-group'><label class='control-label col-sm-4'>Pin Code:</label> <div class='col-sm-8'> <input class='form-control' type="integer" name="pin_code" value="{{ user1.pin_code }}"></div></div></li>
+  Phone number 
+  <div id="phone_num">
+	  <p class="phone_num">
+  {% for value in user1_phone_num %}
+  <input type="text" name="phone_num[]" value="{{ value.phone_number }}"> 
+  <a href="#" class="remove_phone btn btn-danger">Remove</a>
+  {% endfor %}
+  </p>
+  </div>
+<a href="#" class="add_phone btn btn-primary">Add More</a>
+<br>
+<br/>
+<input type="submit" class='btn btn-sucess' name="save" value="SAVE">
+	</form>
+
+</ul>
+</div>
+</body>
+</html>

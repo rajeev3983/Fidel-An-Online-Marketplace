@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/static/fidel_app/bootstrap/css/bootstrap.min.css">
+  <script src="/static/fidel_app/jquery-1.11.2.min.js"></script>
+  <script src="/static/fidel_app/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-default">
+<div class="container">
+<div class="row">
+<div class="col-sm-1">
+<a class="navbar-brand" href="/">Fidel</a>
+</div>
+<div class="col-sm-5">
+            <form action="/search/" class="navbar-form">
+	      <div class="form-group" style="width:100%;">
+		<div class="input-group" style="width:100%;">
+        	    <input type="text" class="form-control" placeholder="Search" name="q">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                    </span>
+		 </div>
+		</div>
+            </form>
+</div>
+<div class="col-sm-6">
+      <ul class="nav navbar-nav navbar-right">
+        <li class="active"><a href="/">Home</a></li>
+        <li><a href="/requests/">Requests</a></li>
+        <li><a href="/messages/">Messages</a></li> 
+        <li><a href="/notifications/">Notifications</a></li>
+	<li class="dropdown">
+	<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+               My Account
+               <b class="caret"></b>
+        </a>
+	<ul class="dropdown-menu">
+               <li><a href="/myprofile/">Profile</a></li>
+               <li><a href="/advertisements/">Advertisements</a></li>
+               <li><a href="/requirements/">Requirements</a></li>
+	       <li><a href="/logout/">Sign Out</a></li>
+         </ul>
+	</li>
+      </ul>
+</div>
+</div>
+</div>
+</nav>
+<div class="container">
+<h4> Search Results : {{q}}</h4>
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#advertisements">Advertisements</a></li>
+        <li><a data-toggle="tab" href="#people">People</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="advertisements" class="tab-pane fade in active">
+        <p>{{ no_add}}</p>
+          {% for adv in advts %}
+          <div class="thumbnail">
+          <div class="row">
+            <div class="col-sm-4">
+            <div class="thumbnail">
+            <img src="/static/fidel_app/images/NoImage.jpg" class="img-responsive img-thumbnail" alt="{{item}}" style="height:200px">
+            </div>
+            <a href="/users/?user_id={{adv.seller_id}}">View Seller's Profile</a>
+            </div>
+            <div class="col-sm-8">
+             <div class="thumbnail">
+             <div class="table-responsive">
+                <table class="table">
+                  <tr>
+                  <td> Item Type</td><td> {{adv.item_type}}</td>
+                  <tr><td> Price</td><td> Rs. {{adv.price}}</td></tr>
+                  <tr><td> Original Price</td><td> Rs. {{adv.original_price}}</td></tr>
+                 <tr> <td> Period of use</td><td> {{adv.period_of_use}} months</td></tr>
+                 <tr> <td> Seller </td><td> {{adv.seller_name}}</td></tr>
+                  {% for key,value in adv.attr_dict.items %}
+                  <tr>
+                  <td> {{key}}</td><td> {{value}}</td>
+                  </tr>
+                  {% endfor %}
+                </table>
+          </div>
+          </div>
+          </div>
+          </div>
+          </div>
+          {% endfor %}
+          </div>
+        <div id="people" class="tab-pane fade">
+        <p>{{ no_usrs}}</p>
+        {% for user in usrs %}
+         {% if forloop.counter0|divisibleby:4  %}
+          <div class="row">
+          {% endif %}
+            <div class="col-sm-3">
+            <div class="thumbnail">
+            <a href="/users/?user_id={{user.user_id}}">
+            <img src="/static/fidel_app/images/NoProfilePic.jpg" class="img-responsive img-thumbnail" alt="{{item}}" style="height:200px">
+            <h4> {{ user.name}}</h4>
+            <h5> {{ user.city}}</h5>
+            </a>
+            </div>
+            </div>
+        {% if forloop.counter|divisibleby:4  %}
+        </div>
+        {% endif %}       
+        {% endfor %}
+      </div>
+</body>
+</html>

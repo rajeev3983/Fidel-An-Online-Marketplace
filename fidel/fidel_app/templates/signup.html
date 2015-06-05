@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/static/fidel_app/bootstrap/css/bootstrap.min.css">
+  <script src="/static/fidel_app/jquery-1.11.2.min.js"></script>
+  <script src="/static/fidel_app/bootstrap/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="/static/fidel_app/notifIt.js"></script>
+  <link rel="stylesheet" type="text/css" href="/static/fidel_app/notifIt.css">
+  <script>
+	$(document).ready(function(){
+		$("form").submit(function(){
+			if(!$("[required]").val()) {
+				notif({msg:"<b>Form data invalid:</b> A required field is missing",type:"error"})
+				return false;
+			}
+			if($("input[name=password]").val()!=$("input[name=cpassword]").val()) {
+				notif({msg:"<b>Invalid Password Confirmation:</b> Password do not match.",type:"error"})
+				return false;
+			}
+		});
+   
+   $('.add_phone').click(function(event) {
+	   event.preventDefault();
+	   if($(".number").length>=3){
+		   notif({msg:"<b>Phone number limit exceeded:</b>Only 3 numbers are allowed.",type:"error"});
+		   $(".add_phone").remove();
+				return false;
+		}
+		$("#number").append($('.number:eq(0)').clone());
+   });
+	});
+  </script>
+  
+  
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+
+
+</head>
+<body>
+<nav class="navbar navbar-default">
+<div class="container">
+<div class="navbar-header">
+<a class="navbar-brand" href="/">Fidel</a>
+</div>
+</div>
+</nav>
+<div class="container">
+<div class="col-sm-3"></div>
+<div class="col-sm-6 table-responsive">
+<!-- <form action="/signup/" method="post" role="form" enctype="multipart/form-data"> {% csrf_token %}
+{% for field in form %}
+<tr>
+<td>
+  <label class="control-label" for="id_{{ field.name }}">{{ field.label }}</label>
+</td>
+<td>
+  {{field}}
+</td>
+</tr>
+{% endfor %}
+</table>
+-->
+
+<form action="/signup/" method="POST" class='form-horizontal' enctype="multipart/form-data">
+	<ul class='list-group'>
+  <li class='list-group-item'>
+	  <div class='form-group'>
+		  <span class=" col-sm-4 control-label" style="font-size:16px;">Profile Picture:</span>
+	  	<div class="col-sm-8"> 
+			  <input type="file" class='form-control' name="profile_picture" >
+	  	</div>
+  	  </div>
+  </li>
+  <li class='list-group-item'>
+	  <div class='form-group'>
+		  <span class=" col-sm-4 control-label" style="font-size:16px;">First Name:</span>
+	  	<div class="col-sm-8"> 
+			  <input type="text" class='form-control' name="first_name" required>
+	  	</div>
+  	  </div>
+  </li>
+  <li class='list-group-item'>
+	  <div class='form-group'>
+		  <span class=" col-sm-4 control-label" style="font-size:16px;">Last Name:</span>
+	  	<div class="col-sm-8"> 
+			  <input type="text" class='form-control' name="last_name" required>
+	  	</div>
+  	  </div>
+  </li>
+  <li class='list-group-item'>
+	  <div class='form-group'>
+		  <span class=" col-sm-4 control-label" style="font-size:16px;">E-mail id:</span>
+	  	<div class="col-sm-8"> 
+			  <input type="email" class='form-control' name="email_id" required>
+	  	</div>
+  	  </div>
+  </li>
+  <li class='list-group-item'>
+	  <div class='form-group'>
+		  <span class=" col-sm-4 control-label" style="font-size:16px;">Password:</span>
+	  	<div class="col-sm-8"> 
+			  <input type="password" class='form-control' name="password" required>
+	  	</div>
+  	  </div>
+  </li>
+  <li class='list-group-item'>
+	  <div class='form-group'>
+		  <span class=" col-sm-4 control-label" style="font-size:16px;">Confirm Password:</span>
+	  	<div class="col-sm-8"> 
+			  <input type="password" class='form-control' name="cpassword" required>
+	  	</div>
+  	  </div>
+  </li>
+  <li class='list-group-item'>
+	  <div class='form-group'>
+		  <span class=" col-sm-4 control-label" style="font-size:16px;">Street name:</span>
+	  	<div class="col-sm-8"> 
+			  <input type="text" class='form-control' name="street_name" >
+	  	</div>
+  	  </div>
+  </li>
+  <li class='list-group-item'>
+	  <div class='form-group'>
+		  <span class=" col-sm-4 control-label" style="font-size:16px;">House No:</span>
+	  	<div class="col-sm-8"> 
+			  <input type="integer" class='form-control' name="house_number" >
+	  	</div>
+  	  </div>
+  </li>
+  <li class='list-group-item'>
+	  <div class='form-group'>
+		  <span class=" col-sm-4 control-label" style="font-size:16px;">City:</span>
+	  	<div class="col-sm-8"> 
+			  <input type="text" class='form-control' name="city" >
+	  	</div>
+  	  </div>
+  </li>
+  <li class='list-group-item'>
+	  <div class='form-group'>
+		  <span class=" col-sm-4 control-label" style="font-size:16px;">Pin Code:</span>
+	  	<div class="col-sm-8"> 
+			  <input type="integer" class='form-control' name="pin_code" >
+	  	</div>
+  	  </div>
+  </li>
+
+<li class='list-group-item'>	
+<div id="number" style='height:50px;'>
+<p class='number'>
+	<span class="col-sm-4 control-label" style="font-size:16px;">Phone Number:</span>
+	<span class='col-sm-8'><input type="text" class='form-control' name="phone[]" class="sf" ></span>
+</p>
+</div>
+<a href="#" class="add_phone col-sm-4 btn btn-info">Add More</a>
+<span class='clearfix'></span>
+</li>
+</ul>
+<br>
+<input type="submit" value="Register"  class="btn btn-primary">
+<a href="/" class="btn btn-default">Cancel</a>
+</form>
+</div>
+<div class="col-sm-3"></div>
+</div>
+</body>
+</html>
+

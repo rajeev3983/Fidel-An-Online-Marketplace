@@ -1,0 +1,41 @@
+<script>
+$(document).ready(function(){
+$(".msg-send").click(function(){
+			if(!$("[required]").val()) {
+				notif({msg:"<b>Required:</b> Enter something...",type:"error"})
+				return false;
+			}
+	var user = $(this).data('user');
+	$.post("/add_message/",{receiver_id: $(this).data('user'), msg: $("input[name=msg]").val()}, function(res){
+		if(res['result']!="success")
+			return;
+		$("input[name=msg]").val("");
+		$(".msg-body").load("/show_message/",{other_user: user});
+	});
+});
+$("input[name=msg]").keyup(function(event){
+	if(event.keyCode==13) {
+		$(".msg-send").click();
+	}
+})
+});
+</script>
+<div style="height:485px;overflow-y:scroll;margin-bottom: 5px;">
+{% for msg in msgs %}
+ <div class="row alert alert-info" style="margin: 10px 0px;padding-bottom:0px;">
+	 <div class="row">
+		 <div class="col-sm-9">{{msg.user1.first_name}} {{msg.user1.last_name}}</div>
+	 	 <div class="col-sm-3"><span class='small pull-right'>{{msg.timestamp}}</span></div>
+ 	</div>
+ 	<div class="row alert alert-success" style="margin-top:15px;margin-bottom:0px;">
+	 	<div class="col-sm-10 col-sm-offset-1">{{msg.message}}</div>
+ 	</div>
+ </div>
+{% endfor %}
+</div>
+<div class="input-group">
+      <input type="text" name='msg' class="form-control" required placeholder="Type your message...">
+      <span class="input-group-btn">
+        <button class="btn btn-primary msg-send" data-user='{{other_user}}' type="button">Send</button>
+      </span>
+</div>

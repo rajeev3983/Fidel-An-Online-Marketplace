@@ -1,0 +1,32 @@
+        <p>{{ no_add}}</p>
+          {% for adv in advts %}
+          <div class="thumbnail">
+          <div class="row">
+            <div class="col-sm-4">
+            <div class="thumbnail">
+            <img src="/static/fidel_app/images/{{adv.pict_dict.items.0.1}}" class="img-responsive img-thumbnail" alt="{{item}}" style="height:200px">
+            </div>
+            <a href="/users/?user_id={{adv.seller_id}}">View Seller's Profile</a>
+            </div>
+            <div class="col-sm-8">
+             <div class="thumbnail">
+             <div class="table-responsive">
+                <table class="table">
+                  <tr>
+                  <td> Item Type</td><td> {{adv.item_type}}</td>
+                  <tr><td> Price</td><td> Rs. {{adv.price}}</td></tr>
+                  <tr><td> Original Price</td><td> Rs. {{adv.original_price}}</td></tr>
+                 <tr> <td> Period of use</td><td> {{adv.period_of_use}} months</td></tr>
+                 <tr> <td> Seller </td><td> {{adv.seller_name}}</td></tr>
+                  {% for key,value in adv.attr_dict.items %}
+                  <tr>
+                  <td> {{key}}</td><td> {{value}}</td>
+                  </tr>
+                  {% endfor %}
+                </table>
+          </div>
+          </div>
+          </div>
+          </div>
+          </div>
+          {% endfor %}
